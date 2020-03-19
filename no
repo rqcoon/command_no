@@ -1,0 +1,32 @@
+#!/bin/sh
+
+#detect OS for audio command determination
+case $(uname | tr '[:upper:]' '[:lower:]') in
+  linux*)
+    export TRAVIS_OS_NAME="linux"
+    ;;
+  darwin*)
+    export TRAVIS_OS_NAME="osx"
+    ;;
+  msys*)
+    export TRAVIS_OS_NAME="windows"
+    ;;
+  *)
+    export TRAVIS_OS_NAME="notset"
+    ;;
+esac
+
+#if TRAVIS_OS_NAME is osx do afplay
+#if TRAVIS_OS_NAME is linux then use mpg123
+#play the audio file through determined command
+if [ $TRAVIS_OS_NAME == "linux" ]
+then
+  mpg123 /usr/local/bin/command_no/no.mp3
+  cat /usr/local/bin/command_no/no.txt
+elif [ $TRAVIS_OS_NAME == "osx" ]
+then
+  afplay /usr/local/bin/command_no/no.mp3
+  cat /usr/local/bin/command_no/no.txt
+else
+  echo "how?"
+fi
